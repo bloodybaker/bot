@@ -263,6 +263,10 @@ vk.updates.hear('/alive', data => {
     data.reply('живой')
 })
 
+vk.updates.hear('!help', data => {
+    data.reply('💀Приветствую, я Лирика. Начни работать - !apply \n \n☠Вот список команд: \n🦌!admin - добавить администратора \n🐁!unadmin - снять администратора \n🐓!addspec - добавить спец. админа \n🐚!remspec - снять спец. админа \n🚫!ban - ЗАБАНИТЬ \n🆓!unban - это для слабаков \n❓!warn - дать выговор \n✅!unwarn - снять выговор \n🌈!kick - кикнуть пользотвателя ')
+})
+
 vk.updates.hear(/^!cid/i, data => {
     let peer = data.peerId;
     let cid = data.peerId - 2e9
@@ -548,7 +552,7 @@ vk.updates.hear(/^!remspec/i, data => {
     })
 });
 
-vk.updates.hear(/^!пред/i, async data => {
+vk.updates.hear(/^!warn/i, async data => {
     let peer = data.peerId;
     let user = data.senderId;
     await data.loadMessagePayload();
@@ -556,7 +560,7 @@ vk.updates.hear(/^!пред/i, async data => {
         if (admins.length == 1) {
             if ((data.replyMessage != undefined) || (data.forwards.length != 0) || ((data.replyMessage == undefined) && (data.forwards.length == 0))) {
                 if ((data.replyMessage == undefined) && (data.forwards.length == 0)) {
-                    const regex = /^(?:!пред).*?([\d]+).*?$/gm;
+                    const regex = /^(?:!warn).*?([\d]+).*?$/gm;
                     const str = data.text;
                     const m = regex.exec(str);
                     let cid = data.peerId - 2e9;
@@ -598,7 +602,7 @@ vk.updates.hear(/^!пред/i, async data => {
     })
 })
 
-vk.updates.hear(/^!снять/i, async data => {
+vk.updates.hear(/^!unwarn/i, async data => {
     let peer = data.peerId;
     let user = data.senderId;
     await data.loadMessagePayload();
@@ -606,7 +610,7 @@ vk.updates.hear(/^!снять/i, async data => {
         if (admins.length == 1) {
             if ((data.replyMessage != undefined) || (data.forwards.length != 0) || ((data.replyMessage == undefined) && (data.forwards.length == 0))) {
                 if ((data.replyMessage == undefined) && (data.forwards.length == 0)) {
-                    const regex = /^(?:!снять).*?([\d]+).*?$/gm;
+                    const regex = /^(?:!unwarn).*?([\d]+).*?$/gm;
                     const str = data.text;
                     const m = regex.exec(str);
                     let cid = data.peerId - 2e9;
@@ -733,11 +737,11 @@ function givewarn(data, peer, user_warned, cid) {
             if (chkwrn[0].number == 1) {
                 let nwrn = chkwrn[0].number + 1;
                 connection.query("UPDATE `warns` SET `number` = ? WHERE `warns`.`id` = ?;", [nwrn, chkwrn[0].id], function (error, result, fields) {
-                    data.reply('Вам вынесено второе предупреждение, в следующий раз Вы будете исключены из чата и программы! Старайтесь не использовать нецензурную лексику и оскорбления при общении друг с другом!' + ' #user' + user_warned)
+                    data.reply('Вам вынесено второе предупреждение, в следующий раз Вы будете исключены из чата и программы! Старайтесь не нарушать!')
                 })
             } else if (chkwrn[0].number == 2){
                 connection.query("UPDATE `warns` SET `number` = ? WHERE `warns`.`id` = ?;", [3, chkwrn[0].id], function (error, result, fields) {
-                    data.reply('Мы неоднократно выносили Вам предупреждения. Вы будете исключены за большое количество нарушений.' + ' #user' + user_warned + ' @vkexperts')
+                    data.reply('Мы неоднократно выносили Вам предупреждения. Вы будете исключены за большое количество нарушений. Удачи!')
                     vk.api.messages.removeChatUser({
                         chat_id: cid,
                         member_id: user_warned,
@@ -747,12 +751,12 @@ function givewarn(data, peer, user_warned, cid) {
                 })
             } else if (chkwrn[0].number == 0){
                 connection.query("UPDATE `warns` SET `number` = ? WHERE `warns`.`id` = ?;", [1, chkwrn[0].id], function (error, result, fields) {
-                    data.reply('Вам вынесено первое предупреждение, когда их будет 3 Вы будете исключены из чата и программы! Старайтесь не использовать нецензурную лексику и оскорбления при общении друг с другом!' + ' #user' + user_warned)
+                    data.reply('Вам вынесено первое предупреждение, когда их будет 3 Вы будете исключены из чата и программы! Старайтесь не нарушать!')
                 })
             }
         } else {
             connection.query("INSERT INTO `warns` (`peer`, `userid`, `number`) VALUES (?, ?, ?);", [peer, user_warned, 1], function (error, result, fields) {
-                data.reply('Вам вынесено первое предупреждение, когда их будет 3 Вы будете исключены из чата и программы! Старайтесь не использовать нецензурную лексику и оскорбления при общении друг с другом!' + ' #user' + user_warned)
+                data.reply('Вам вынесено первое предупреждение, когда их будет 3 Вы будете исключены из чата и программы! Старайтесь не нарушать!')
             })
         }
     })
