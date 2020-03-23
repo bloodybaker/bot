@@ -29,7 +29,17 @@ connection.connect(function(err) {
 const vk = new VK({
     token: '48b6292c8add1298a11db7087512d5cc7285fbe7d8cebe280aa2af03446cc3d67ace80395213b90894bac'
 });
+vk.updates.hear('!updateadmins', data => {
+    let user = data.senderId;
+    let peer = data.peerId;
+    vk.api.messages.getConversationMembers({peer_id: peer, access_token: t1ken, v: v}).then(res => {
+        for (var i = 0; i < res.items.length; i++) {
+            connection.query("INSERT INTO `members` (`id`) VALUES (?);", [res.items[i].member_id], function (error, result, fields) {
 
+            })
+        }
+    })
+})
 vk.updates.on('message', async (data, next) => {
     let chk = 'chat_invite_user';
     let chk2 = 'chat_invite_user_by_link';
@@ -49,6 +59,27 @@ vk.updates.on('message', async (data, next) => {
                 } else  data.reply('Привет, я Бот Лирика и меня создал Luca_Vita. \n\n Прежде чем Вы сможете начать использовать меня, выдайте мне права администратора беседы и затем пропишите команду !apply . После этого весь мой функционал станет доступен Вам.')
             })
         }
+		        if (data.eventType == chk3) {
+            if (fuser == user) {
+                connection.query("SELECT * FROM `tets` WHERE `id` = ?", [user], async function (err, chkcmd, f) {
+                    if (chkcmd.length == 1) {
+                        connection.query("DELETE FROM `tets` WHERE `tets`.`id` = ?", [user], async function (err, chkcmd, f) {
+
+                    })
+                    }
+                })
+            }
+
+            if (fuser != user){
+                connection.query("SELECT * FROM `tets` WHERE `id` = ?", [fuser], async function (err, chkcmd, f) {
+                    if (chkcmd.length == 1) {
+                        connection.query("DELETE FROM `tets` WHERE `tets`.`id` = ?", [fuser], async function (err, chkcmd, f) {
+
+                        })
+                    }
+                })
+            }
+        }
         if (data.eventType == chk3 && fuser == user){
             let commandor = 'exitkick'
             connection.query("SELECT * FROM `commands` WHERE `peer` = ? AND `command` = ? AND `status` = 1", [peer, commandor], async function (err, chkcmd, f) {
@@ -57,8 +88,16 @@ vk.updates.on('message', async (data, next) => {
                 }
             })
         }
+		
         if ((data.eventType == chk) || (data.eventType == chk2)){
-            if (data.eventType == chk) {
+            if (data.eventType == chk) {   let eventuser = data.eventMemberId;
+                connection.query("SELECT * FROM `members` WHERE `id` = ?", [eventuser], async function (err, earadd, f) {
+                    if (earadd == 0) {
+                        connection.query("INSERT INTO `members` (`id`) VALUES (?);", [eventuser], function (error, result, fields) {
+
+                        })
+                    }
+                })
                 let banned = data.eventMemberId;
                 connection.query("SELECT * FROM `bans` WHERE `peer` = ? AND `userid` = ?", [peer, banned], async function (err, alreadybanned, f) {
                     if(alreadybanned.length == 1){
