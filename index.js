@@ -733,7 +733,6 @@ vk.updates.hear(/^!swarn/i, async data => {
                     if (user != user_warned) {
                         connection.query("SELECT * FROM `members` WHERE `id` = ? AND `kurator` >= 1", [user_warned], async function (err, kickadmin, f) {
                             if (kickadmin.length == 0) {
-								console.log(`Proverka Prodena`)
                                 swarn(data, peer, user_warned, cid)
                             } else data.reply('Вы не можете дать предупреждение администратору!')
                         })
@@ -775,10 +774,10 @@ vk.updates.hear(/^!lgot/i, async data => {
     connection.query("SELECT * FROM `members` WHERE `id` = ? AND `kurator` >= 1", [user], async function (err, crchk, f) { // todo
         if (crchk.length == 1) {
             message = data.text;
+			const regex = /^(?:!lgot).*?([\d]+).*?$/gm;
+            const m = regex.exec(message);
             test = message.replace('!lgot ', '').split(' ');
             setting = test.shift()
-            const regex = /^(?:!lgot).*?([\d]+).*?$/gm;
-            const m = regex.exec(setting);
             message = test.join(' ').replace(setting, '');
             var level = parseInt(message)
             connection.query("SELECT * FROM `members` WHERE `id` = ?", [m[1]], async function (err, chkwrn, f) {
