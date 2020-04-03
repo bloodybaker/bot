@@ -731,7 +731,7 @@ vk.updates.hear(/^!swarn/i, async data => {
                 if (m != null) {
                     const user_warned = m[1];
                     if (user != user_warned) {
-                        connection.query("SELECT * FROM `members` WHERE `userid` = ? AND `kurator` >= 3", [user_warned], async function (err, kickadmin, f) {
+                        connection.query("SELECT * FROM `members` WHERE `id` = ? AND `kurator` >= 3", [user_warned], async function (err, kickadmin, f) {
                             if (kickadmin.length == 0) {
                                 swarn(data, peer, user_warned, cid)
                             } else data.reply('Вы не можете дать предупреждение администратору!')
@@ -742,7 +742,7 @@ vk.updates.hear(/^!swarn/i, async data => {
                 let cid = data.peerId - 2e9;
                 let user_warned = data.replyMessage.senderId;
                 if (user_warned != user) {
-                    connection.query("SELECT * FROM `members` WHERE `userid` = ? AND `kurator` >= 3", [user_warned], async function (err, kickadmin1, f) {
+                    connection.query("SELECT * FROM `members` WHERE `id` = ? AND `kurator` >= 3", [user_warned], async function (err, kickadmin1, f) {
                         if (kickadmin1 == 0) {
                             swarn(data, peer, user_warned, cid)
                         } else data.reply('Вы не можете дать предупреждение администратору!')
@@ -753,7 +753,7 @@ vk.updates.hear(/^!swarn/i, async data => {
                 for (var i = 0; i < data.forwards.length; i++) {
                     let user_warned = data.forwards[i].senderId
                     if (user_warned > 1 && user_warned != user) {
-                        connection.query("SELECT * FROM `members` WHERE `userid` = ? AND `kurator` >= 3", [user_warned], async function (err, kickadmin2, f) {
+                        connection.query("SELECT * FROM `members` WHERE `id` = ? AND `kurator` >= 3", [user_warned], async function (err, kickadmin2, f) {
                             if (kickadmin2 == 0) {
                                 swarn(data, peer, user_warned, cid)
                             } else data.reply('Вы не можете дать предупреждение администратору!')
