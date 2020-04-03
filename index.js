@@ -842,7 +842,7 @@ var secname = ['секунда', 'секунды', 'секунд'];
 function unswarn(data, peer, user_unwarned){
     connection.query("SELECT * FROM `members` WHERE `id` = ?", [user_unwarned], async function (err, chkwrn, f) {
         if (chkwrn.length == 1) {
-            if (chkwrn[0].number <= 2 && chkwrn[0].number != 0) {
+            if (chkwrn[0].usn <= 2 && chkwrn[0].usn != 0) {
                 let nwrn = chkwrn[0].usn - 1;
                 connection.query("UPDATE `members` SET `usn` = ? WHERE `members`.`id` = ?;", [nwrn, chkwrn[0].id], function (error, result, fields) {
                     data.reply('Пользователю снято одно устное предупреждение. Теперь у него их ' + nwrn + '. #user' + user_unwarned)
@@ -857,11 +857,11 @@ function unswarn(data, peer, user_unwarned){
 function swarn(data, peer, user_warned, cid) {
     connection.query("SELECT * FROM `members` WHERE `id` = ?", [user_warned], async function (err, chkwrn, f) {
         if (chkwrn.length == 1) {
-            if (chkwrn[0].number == 1) {
+            if (chkwrn[0].usn == 1) {
                 connection.query("UPDATE `members` SET `usn` = ? WHERE `members`.`id` = ?;", [0, chkwrn[0].id], function (error, result, fields) {
                     givewarn(data, user_warned, peer, cid)
                 })
-            } else if (chkwrn[0].number == 0){
+            } else if (chkwrn[0].usn == 0){
                 connection.query("UPDATE `members` SET `usn` = ? WHERE `members`.`id` = ?;", [1, chkwrn[0].id], function (error, result, fields) {
                     data.reply('Вам вынесено первое устное предупреждение, когда их будет 2 Вы получите строгое предупреждение!!' + ' #user' + user_warned)
                 })
