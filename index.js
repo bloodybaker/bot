@@ -864,7 +864,7 @@ function swarn(data, peer, user_warned, cid) {
             if (chkwrn[0].strog == 1) {
                 let nwrn = 2;
                 connection.query("UPDATE `members` SET `strog` = ? WHERE `members`.`id` = ?;", [nwrn, user_warned], function (error, result, fields) {
-                    data.reply('Вам вынесено второе предупреждение, в следующий раз Вы будете исключены из чата и программы! Старайтесь не нарушать!')
+                    data.reply('Вам вынесено второе предупреждение, вы получате строгий выговор!')
                 })
             } else if (chkwrn[0].strog == 2){
                 connection.query("UPDATE `members` SET `strog` = ? WHERE `members`.`id` = ?;", [3, user_warned], function (error, result, fields) {
@@ -878,7 +878,7 @@ function swarn(data, peer, user_warned, cid) {
                 })
             } else if (chkwrn[0].strog == 0){
                 connection.query("UPDATE `members` SET `strog` = ? WHERE `members`.`id` = ?;", [1, user_warned], function (error, result, fields) {
-                    data.reply('Вам вынесено первое предупреждение, когда их будет 3 Вы будете исключены из чата и программы! Старайтесь не нарушать!')
+                    data.reply('Вам вынесено первое предупреждение, когда их будет 2 Вы получите строгий выговор! Старайтесь не нарушать!')
                 })
             }
         }
