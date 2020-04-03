@@ -864,11 +864,11 @@ function swarn(data, peer, user_warned, cid) {
         if (chkwrn.length == 1) {
             if (chkwrn[0].strog == 1) {
                 let nwrn = 2;
-                connection.query("UPDATE `memebers` SET `strog` = ? WHERE `members`.`id` = ?;", [nwrn, user_warned], function (error, result, fields) {
+                connection.query("UPDATE `members` SET `strog` = ? WHERE `members`.`id` = ?;", [nwrn, user_warned], function (error, result, fields) {
                     data.reply('Вам вынесено второе предупреждение, в следующий раз Вы будете исключены из чата и программы! Старайтесь не нарушать!')
                 })
             } else if (chkwrn[0].strog == 2){
-                connection.query("UPDATE `memebers` SET `strog` = ? WHERE `members`.`id` = ?;", [3, user_warned], function (error, result, fields) {
+                connection.query("UPDATE `members` SET `strog` = ? WHERE `members`.`id` = ?;", [3, user_warned], function (error, result, fields) {
                     data.reply('Мы неоднократно выносили Вам предупреждения. Вы будете исключены за большое количество нарушений. Удачи!')
                     vk.api.messages.removeChatUser({
                         chat_id: cid,
