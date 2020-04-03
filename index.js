@@ -863,7 +863,7 @@ function swarn(data, peer, user_warned, cid) {
                     connection.query("SELECT * FROM `members` WHERE `id` = ?", [user_warned], async function (err, chkwrn, f) {
         if (chkwrn.length == 1) {
             if (chkwrn[0].strog == 1) {
-                let nwrn = chkwrn[0].strog + 1;
+                let nwrn = 2;
                 connection.query("UPDATE `memebers` SET `strog` = ? WHERE `members`.`id` = ?;", [nwrn, user_warned], function (error, result, fields) {
                     data.reply('Вам вынесено второе предупреждение, в следующий раз Вы будете исключены из чата и программы! Старайтесь не нарушать!')
                 })
