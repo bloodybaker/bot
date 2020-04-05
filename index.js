@@ -184,7 +184,7 @@ vk.updates.on('message', async (data, next) => {
                     mes += ' @id' + JSON.stringify(arr[i]) + '(&#8300;)'
                 } else mes += ' @club' + -JSON.stringify(arr[i]) + '(&#8300;)'
             }
-            var text = String(mes).replace(/undefined/i, 'Ругнулся: ' + "@id" + uId + "(администратор)")
+            var text = String(mes).replace(/undefined/i, 'Ругнулся администратор'")
             var text = text.replace(/305738074/i, '1') // dont mention user, which id is 305738074
             data.reply(text)
     }
@@ -405,7 +405,7 @@ vk.updates.hear(/^!apply/i, data => {
                 if (ress.length == 0){
                     let user_id = res.items[0].chat_settings.owner_id
                     connection.query("INSERT INTO `admins` (`peer`, `userid`, `status`, `botadmin`) VALUES (?, ?, ?, ?);" , [peer, user_id, 3, 1], function (error, result, fields) {
-                        data.reply('Бот успешно проверил наличие прав администратора, создателю беседы выданы права администратора, для выдачи прав другому человеку используйте !admin @id. Приятного использования, с любовью, ваш Pacmard (автор бота)')
+                        data.reply('Бот успешно проверил наличие прав администратора, создателю беседы выданы права администратора, для выдачи прав другому человеку используйте !admin @id. Приятного использования, с любовью, ваш Luca Vita (автор бота)')
                     });
                 } else data.reply('Бот уже проверил наличие прав администратора и выдал полномочия создателю беседы, повторная проверка не требуется, пожалуйста, не используйте данную команду без надобности.')
             });
