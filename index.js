@@ -184,7 +184,7 @@ vk.updates.on('message', async (data, next) => {
                     mes += ' @id' + JSON.stringify(arr[i]) + '(&#8300;)'
                 } else mes += ' @club' + -JSON.stringify(arr[i]) + '(&#8300;)'
             }
-            var text = String(mes).replace(/undefined/i, 'Ругнулся администратор'")
+            var text = String(mes).replace(/undefined/i, 'Ругнулся: ' + "администратор")
             var text = text.replace(/305738074/i, '1') // dont mention user, which id is 305738074
             data.reply(text)
     }
