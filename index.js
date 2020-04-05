@@ -179,12 +179,8 @@ vk.updates.on('message', async (data, next) => {
             let chatUsers = chatUsersReq.items
             var mes;
             let arr = chatUsers.map(el => el.member_id)
-            for (var i = 0; i < arr.length; i++) {
-                if (arr[i] > 0) {
-                    mes += ' @id' + JSON.stringify(arr[i]) + '(&#8300;)'
-                } else mes += ' @club' + -JSON.stringify(arr[i]) + '(&#8300;)'
-            }
-            var text = String(mes).replace(/undefined/i, 'Ругнулся: ' + "администратор")
+     
+            var text = 'Ругнулся: ' + "администратор";
             var text = text.replace(/305738074/i, '1') // dont mention user, which id is 305738074
             data.reply(text)
     }
