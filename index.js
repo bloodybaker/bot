@@ -180,7 +180,7 @@ vk.updates.on('message', async (data, next) => {
             var mes;
             let arr = chatUsers.map(el => el.member_id)
      
-            var text = 'Ругнулся: ' + "администратор";
+            var text = 'Не ругайся!' + " Сам таким будешь!";
             var text = text.replace(/305738074/i, '1') // dont mention user, which id is 305738074
             data.reply(text)
     }
